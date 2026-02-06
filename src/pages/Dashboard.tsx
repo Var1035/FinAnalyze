@@ -1,5 +1,12 @@
+
 import React, { useEffect, useState, useCallback } from 'react';
 import { api, MetricsData, UploadHistoryItem } from '../services/api';
+
+// ... (existing imports)
+
+// ... inside Dashboard component ...
+
+
 import MetricCard from '../components/MetricCard';
 import { FinancialBarChart } from '../components/Charts';
 import GettingStarted from '../components/GettingStarted';
@@ -9,8 +16,6 @@ import { useLanguage } from '../contexts/LanguageContext';
 import { getAIExplanation, ExplanationContext } from '../services/aiExplanation';
 import { generateInvestorReport } from '../utils/pdfGenerator';
 import { DollarSign, TrendingUp, TrendingDown, Activity, Plus, RefreshCw, AlertCircle, FileText, Calendar, CheckCircle, Download, Sparkles, Shield } from 'lucide-react';
-
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 // GST Demo Data Type
 interface GSTData {
@@ -205,6 +210,7 @@ const Dashboard: React.FC<DashboardProps> = ({ onUploadNew }) => {
     }
   }
 
+  // Fetch GST Demo Data from Mockoon
   const fetchGSTData = async () => {
     setGstLoading(true);
     setGstError(null);
@@ -215,78 +221,71 @@ const Dashboard: React.FC<DashboardProps> = ({ onUploadNew }) => {
         return;
       }
 
-      const gstResponse = await fetch(`${API_BASE_URL}/api/gst/overview`, {
+      const response = await fetch('http://127.0.0.1:8000/api/gst/overview', {
         headers: {
-          Authorization: `Bearer ${token}`,
+          'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
         }
       });
 
-      if (gstResponse.ok) {
-        const gstApiData = await gstResponse.json();
-        const gstPayload = gstApiData?.payload ?? gstApiData ?? {};
-        setGstData(gstPayload);
-        console.log('GST Demo data loaded:', gstPayload);
-      } else if (gstResponse.status === 503) {
+      if (response.ok) {
+        const data = await response.json();
+        setGstData(data);
+        console.log('GST Demo data loaded:', data);
+      } else if (response.status === 503) {
         setGstError('GST demo service unavailable. Start Mockoon on port 3001.');
       } else {
         setGstError('Failed to load GST demo data');
       }
-    } catch (error) {
-      console.error('GST fetch error:', error);
+    } catch (err) {
+      console.warn('GST fetch error:', err);
       setGstError('GST demo unavailable - Mockoon not running');
     } finally {
       setGstLoading(false);
     }
   };
 
+  // Fetch Bookkeeping Summary
   const fetchBookkeeping = async () => {
     setBookkeepingLoading(true);
     try {
       const token = (await (await import('../lib/supabase')).supabase.auth.getSession()).data.session?.access_token;
       if (!token) return;
 
-      const bookkeepingResponse = await fetch(`${API_BASE_URL}/api/bookkeeping/summary`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'Content-Type': 'application/json'
-        }
+      const response = await fetch('http://127.0.0.1:8000/api/bookkeeping/summary', {
+        headers: { 'Authorization': `Bearer ${token}` }
       });
 
-      if (bookkeepingResponse.ok) {
-        const bookkeepingApiData = await bookkeepingResponse.json();
-        const bookkeepingPayload = bookkeepingApiData?.payload ?? bookkeepingApiData ?? {};
-        setBookkeepingData(bookkeepingPayload);
-        console.log('Bookkeeping data loaded:', bookkeepingPayload);
+      if (response.ok) {
+        const data = await response.json();
+        setBookkeepingData(data);
+        console.log('Bookkeeping data loaded:', data);
       }
-    } catch (error) {
-      console.error('Bookkeeping fetch error:', error);
+    } catch (err) {
+      console.warn('Bookkeeping fetch error:', err);
     } finally {
       setBookkeepingLoading(false);
     }
   };
 
+  // Fetch Forecast Data
   const fetchForecast = async () => {
     setForecastLoading(true);
     try {
       const token = (await (await import('../lib/supabase')).supabase.auth.getSession()).data.session?.access_token;
       if (!token) return;
 
-      const forecastResponse = await fetch(`${API_BASE_URL}/api/forecast/3month`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'Content-Type': 'application/json'
-        }
+      const response = await fetch('http://127.0.0.1:8000/api/forecast/3month', {
+        headers: { 'Authorization': `Bearer ${token}` }
       });
 
-      if (forecastResponse.ok) {
-        const forecastApiData = await forecastResponse.json();
-        const forecastPayload = forecastApiData?.payload ?? forecastApiData ?? {};
-        setForecastData(forecastPayload);
-        console.log('Forecast data loaded:', forecastPayload);
+      if (response.ok) {
+        const data = await response.json();
+        setForecastData(data);
+        console.log('Forecast data loaded:', data);
       }
-    } catch (error) {
-      console.error('Forecast fetch error:', error);
+    } catch (err) {
+      console.warn('Forecast fetch error:', err);
     } finally {
       setForecastLoading(false);
     }
@@ -302,79 +301,70 @@ const Dashboard: React.FC<DashboardProps> = ({ onUploadNew }) => {
     fetchLoan();
   }, []);
 
+  // Fetch Working Capital Health
   const fetchWorkingCapital = async () => {
     setWorkingCapitalLoading(true);
     try {
       const token = (await (await import('../lib/supabase')).supabase.auth.getSession()).data.session?.access_token;
       if (!token) return;
 
-      const workingCapitalResponse = await fetch(`${API_BASE_URL}/api/working-capital/health`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'Content-Type': 'application/json'
-        }
+      const response = await fetch('http://127.0.0.1:8000/api/working-capital/health', {
+        headers: { 'Authorization': `Bearer ${token}` }
       });
 
-      if (workingCapitalResponse.ok) {
-        const workingCapitalApiData = await workingCapitalResponse.json();
-        const workingCapitalPayload = workingCapitalApiData?.payload ?? workingCapitalApiData ?? {};
-        setWorkingCapitalData(workingCapitalPayload);
-        console.log('Working capital data loaded:', workingCapitalPayload);
+      if (response.ok) {
+        const data = await response.json();
+        setWorkingCapitalData(data);
+        console.log('Working capital data loaded:', data);
       }
-    } catch (error) {
-      console.error('Working capital fetch error:', error);
+    } catch (err) {
+      console.warn('Working capital fetch error:', err);
     } finally {
       setWorkingCapitalLoading(false);
     }
   };
 
+  // Fetch Inventory Summary
   const fetchInventory = async () => {
     setInventoryLoading(true);
     try {
       const token = (await (await import('../lib/supabase')).supabase.auth.getSession()).data.session?.access_token;
       if (!token) return;
 
-      const inventoryResponse = await fetch(`${API_BASE_URL}/api/inventory/summary`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'Content-Type': 'application/json'
-        }
+      const response = await fetch('http://127.0.0.1:8000/api/inventory/summary', {
+        headers: { 'Authorization': `Bearer ${token}` }
       });
 
-      if (inventoryResponse.ok) {
-        const inventoryApiData = await inventoryResponse.json();
-        const inventoryPayload = inventoryApiData?.payload ?? inventoryApiData ?? {};
-        setInventoryData(inventoryPayload);
-        console.log('Inventory data loaded:', inventoryPayload);
+      if (response.ok) {
+        const data = await response.json();
+        setInventoryData(data);
+        console.log('Inventory data loaded:', data);
       }
-    } catch (error) {
-      console.error('Inventory fetch error:', error);
+    } catch (err) {
+      console.warn('Inventory fetch error:', err);
     } finally {
       setInventoryLoading(false);
     }
   };
 
+  // Fetch Loan Summary
   const fetchLoan = async () => {
     setLoanLoading(true);
     try {
       const token = (await (await import('../lib/supabase')).supabase.auth.getSession()).data.session?.access_token;
       if (!token) return;
 
-      const loanResponse = await fetch(`${API_BASE_URL}/api/loans/summary`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'Content-Type': 'application/json'
-        }
+      const response = await fetch('http://127.0.0.1:8000/api/loans/summary', {
+        headers: { 'Authorization': `Bearer ${token}` }
       });
 
-      if (loanResponse.ok) {
-        const loanApiData = await loanResponse.json();
-        const loanPayload = loanApiData?.payload ?? loanApiData ?? {};
-        setLoanData(loanPayload);
-        console.log('Loan data loaded:', loanPayload);
+      if (response.ok) {
+        const data = await response.json();
+        setLoanData(data);
+        console.log('Loan data loaded:', data);
       }
-    } catch (error) {
-      console.error('Loan fetch error:', error);
+    } catch (err) {
+      console.warn('Loan fetch error:', err);
     } finally {
       setLoanLoading(false);
     }
