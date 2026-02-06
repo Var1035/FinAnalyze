@@ -7,9 +7,46 @@ import logging
 import json
 import os
 from dotenv import load_dotenv
-
 import uvicorn
 
+# --------------------------------------------------
+# Load environment variables
+# --------------------------------------------------
+load_dotenv()
+
+# --------------------------------------------------
+# Create FastAPI app  ✅ THIS WAS MISSING
+# --------------------------------------------------
+app = FastAPI(
+    title="FinAnalyze API",
+    version="1.0.0"
+)
+
+# --------------------------------------------------
+# CORS (important for frontend like Netlify)
+# --------------------------------------------------
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],   # change later if needed
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+# --------------------------------------------------
+# Basic routes (health check)
+# --------------------------------------------------
+@app.get("/")
+def root():
+    return {"message": "FinAnalyze backend running successfully"}
+
+@app.get("/health")
+def health():
+    return {"status": "ok"}
+
+# --------------------------------------------------
+# Start server (Railway compatible)
+# --------------------------------------------------
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 8080))
     uvicorn.run(app, host="0.0.0.0", port=port)
