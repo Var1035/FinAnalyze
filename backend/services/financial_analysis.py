@@ -8,9 +8,7 @@ from typing import Dict, Any, List, Optional, Tuple
 
 logger = logging.getLogger(__name__)
 
-# ============================================================
-# A) COLUMN NORMALIZATION & ALIAS DICTIONARIES
-# ============================================================
+
 
 COLUMN_ALIASES = {
     # Date columns
@@ -44,7 +42,7 @@ COLUMN_ALIASES = {
     "party": ["customer", "client", "party", "vendor", "supplier", "buyer", "seller", "name"]
 }
 
-# Required fields per upload type
+
 REQUIRED_FIELDS = {
     "bank": ["date", ("credit", "debit", "amount")],  # Need date + (credit/debit OR amount)
     "sales": ["date", ("amount", "credit")],           # Need date + amount
@@ -144,9 +142,7 @@ def validate_required_fields(mapping: Dict, upload_type: str) -> Tuple[bool, Lis
     
     return len(missing) == 0, missing
 
-# ============================================================
-# B) DATA PARSING WITH VALIDATED MAPPING
-# ============================================================
+
 
 def sanitize_value(val: Any) -> Any:
     """Convert value to JSON-safe format."""
@@ -296,9 +292,7 @@ def compute_metrics(parsed_rows: List[Dict], upload_type: str) -> Dict[str, floa
     
     return {}
 
-# ============================================================
-# C) MAIN PROCESSING FUNCTION
-# ============================================================
+
 
 async def process_financial_data(file_contents: bytes, filename: str, upload_type: str) -> Dict[str, Any]:
     """
@@ -330,8 +324,7 @@ async def process_financial_data(file_contents: bytes, filename: str, upload_typ
         logger.info(f"Loaded {len(df)} rows with columns: {df.columns.tolist()}")
 
         if upload_type in ['inventory', 'loan']:
-            # DIRECT PARSING OVERRIDE (Requirements Part A & B)
-            # Bypass standard mapping logic entirely for these types
+            # Bypass standard mapping for these types
             logger.info(f"Using direct parsing for {upload_type}")
 
             # Create a 1:1 mapping for UI display purposes (so user sees what they uploaded)
@@ -356,14 +349,12 @@ async def process_financial_data(file_contents: bytes, filename: str, upload_typ
             # The downstream specific services (inventory_loan_service) handle the specific field validation
 
         else:
-            # STANDARD FINANCIAL PARSING (Bank/Sales/Purchase)
-
-            # A) Analyze column mapping
+            # Standard financial parsing
+            
             mapping_result = analyze_column_mapping(df)
             mapping = mapping_result["mapping"]
             confidence = mapping_result["min_confidence"]
 
-            # B) Validate required fields
             is_valid, missing = validate_required_fields(mapping, upload_type)
 
             if not is_valid:
@@ -371,10 +362,7 @@ async def process_financial_data(file_contents: bytes, filename: str, upload_typ
                 logger.error(error_msg)
                 raise ValueError(error_msg)
 
-            # C) Parse data using mapping
             parsed_data = parse_with_mapping(df, mapping, upload_type)
-
-            # D) Compute metrics
             metrics = compute_metrics(parsed_data, upload_type)
 
         if not parsed_data:

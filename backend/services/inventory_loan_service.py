@@ -9,9 +9,7 @@ from typing import Dict, Any, List, Optional
 logger = logging.getLogger(__name__)
 
 
-# ============================================
-# INVENTORY PROCESSING
-# ============================================
+
 
 def process_inventory_data(parsed_data: List[Dict[str, Any]]) -> Dict[str, Any]:
     """
@@ -110,9 +108,7 @@ def get_inventory_summary(uploads_data: List[Dict[str, Any]]) -> Dict[str, Any]:
     }
 
 
-# ============================================
-# LOAN OBLIGATIONS PROCESSING
-# ============================================
+
 
 def process_loan_data(parsed_data: List[Dict[str, Any]]) -> Dict[str, Any]:
     """

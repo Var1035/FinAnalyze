@@ -23,12 +23,12 @@ def calculate_working_capital(
     Returns:
         Working capital health assessment
     """
-    # Get receivables and payables from metrics
+
     total_receivables = metrics.get('total_receivables', 0) or 0
     total_payables = metrics.get('total_payables', 0) or 0
     monthly_revenue = (metrics.get('total_revenue', 0) or 0) / 3  # Assume 3 months average
     
-    # Calculate from parsed_data if metrics are zero
+
     if total_receivables == 0 or total_payables == 0:
         calc_receivables, calc_payables = calculate_from_parsed_data(uploads_data)
         if total_receivables == 0:
@@ -36,13 +36,8 @@ def calculate_working_capital(
         if total_payables == 0:
             total_payables = calc_payables
     
-    # Calculate working capital gap
-    working_capital_gap = total_receivables - total_payables
-    
-    # Risk classification
     risk_level = classify_risk(working_capital_gap, monthly_revenue)
     
-    # Generate key observations
     observations = generate_observations(
         total_receivables, total_payables, working_capital_gap, risk_level, monthly_revenue
     )
@@ -84,12 +79,12 @@ def calculate_from_parsed_data(uploads_data: List[Dict[str, Any]]) -> tuple:
             credit = float(transaction.get('credit', 0) or 0)
             debit = float(transaction.get('debit', 0) or 0)
             
-            # Unpaid sales = receivables
+            debit = float(transaction.get('debit', 0) or 0)
+            
             if upload_type == 'sales':
                 if status in ['pending', 'unpaid', 'outstanding', 'due', '']:
                     receivables += amount or credit
             
-            # Unpaid purchases = payables
             elif upload_type == 'purchase':
                 if status in ['pending', 'unpaid', 'outstanding', 'due', '']:
                     payables += amount or debit

@@ -8,13 +8,13 @@ import json
 import os
 from dotenv import load_dotenv
 
-# Load environment variables from .env file
+
 load_dotenv()
 
 from backend.db_client import supabase
 from backend.services.financial_analysis import process_financial_data
 
-# Configure Logging
+
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
@@ -41,7 +41,7 @@ class MetricsResponse(BaseModel):
     net_profit: float
     profit_margin: float
 
-# Authentication Dependency
+
 async def get_current_user(authorization: Optional[str] = Header(None)):
     """
     Extract user from JWT token in Authorization header.
@@ -85,7 +85,8 @@ async def upload_financials(
         content = await file.read()
         logger.info(f"Received upload: {file.filename} of type {type} for user {user_id}")
         
-        # 1. Process Data - Parse file into records
+        logger.info(f"Received upload: {file.filename} of type {type} for user {user_id}")
+        
         result = await process_financial_data(content, file.filename, type)
         metrics = result.get("metrics", {})
         parsed_data = result.get("parsed_data", [])
@@ -102,7 +103,8 @@ async def upload_financials(
         
         filename = file.filename or "uploaded_file.csv"
         
-        # 2. Store to financial_uploads with parsed_data
+        filename = file.filename or "uploaded_file.csv"
+        
         # DB CONSTRAINT WORKAROUND: Masquerade 'inventory' and 'loan' as 'bank'
         # but prepend specific tag to filename for downstream identification.
         
@@ -133,14 +135,11 @@ async def upload_financials(
         upload_id = res_upload.data[0]['id']
         logger.info(f"✅ Upload saved with ID: {upload_id}")
         
-        # 3. UPSERT Metrics - Single record per user with aggregation
         # Fetch existing metrics for this user
         existing_metrics = supabase.table("financial_metrics").select("*").eq("user_id", user_id).execute()
         
-        # Calculate new totals: existing + this upload
         current = existing_metrics.data[0] if existing_metrics.data else {}
         
-        # Aggregate values
         new_total_revenue = current.get("total_revenue", 0) + metrics.get("total_revenue", 0)
         new_total_expenses = current.get("total_expenses", 0) + metrics.get("total_expenses", 0)
         new_cash_inflow = current.get("cash_inflow", 0) + metrics.get("cash_inflow", 0)
@@ -148,7 +147,8 @@ async def upload_financials(
         new_receivables = current.get("total_receivables", 0) + metrics.get("total_receivables", 0)
         new_payables = current.get("total_payables", 0) + metrics.get("total_payables", 0)
         
-        # Derived metrics
+        new_payables = current.get("total_payables", 0) + metrics.get("total_payables", 0)
+        
         new_net_profit = new_total_revenue - new_total_expenses
         new_profit_margin = (new_net_profit / new_total_revenue * 100) if new_total_revenue > 0 else 0.0
         
@@ -178,7 +178,6 @@ async def upload_financials(
             res_metrics = supabase.table("financial_metrics").insert(metrics_payload).execute()
             logger.info(f"✅ Metrics INSERTED: {res_metrics.data}")
         
-        # 4. Return parsed data to frontend for display
         return {
             "message": "File processed and saved successfully", 
             "upload_id": upload_id,
@@ -235,9 +234,7 @@ async def get_metrics_overview(user_id: str = Depends(get_current_user)):
         raise HTTPException(status_code=500, detail=str(e))
 
 
-# ============================================
-# MISTRAL AI EXPLANATION ENDPOINT
-# ============================================
+
 
 class AIExplanationRequest(BaseModel):
     system_prompt: str
@@ -327,9 +324,7 @@ async def get_ai_explanation(
         )
 
 
-# ============================================
-# GST COMPLIANCE DEMO ENDPOINT (MOCKOON)
-# ============================================
+
 
 from backend.services.gst_service import get_gst_overview
 
@@ -376,9 +371,7 @@ async def get_gst_overview_endpoint(user_id: str = Depends(get_current_user)):
         raise HTTPException(status_code=500, detail=str(e))
 
 
-# ============================================
-# BOOKKEEPING SUMMARY ENDPOINT
-# ============================================
+
 
 from backend.services.bookkeeping_service import generate_bookkeeping_summary
 
@@ -436,9 +429,7 @@ async def get_bookkeeping_summary(user_id: str = Depends(get_current_user)):
         raise HTTPException(status_code=500, detail=str(e))
 
 
-# ============================================
-# FINANCIAL FORECASTING ENDPOINT
-# ============================================
+
 
 from backend.services.forecasting_service import generate_forecast
 
@@ -491,9 +482,7 @@ async def get_financial_forecast(user_id: str = Depends(get_current_user)):
         raise HTTPException(status_code=500, detail=str(e))
 
 
-# ============================================
-# WORKING CAPITAL HEALTH ENDPOINT
-# ============================================
+
 
 from backend.services.working_capital_service import calculate_working_capital
 
@@ -544,9 +533,7 @@ async def get_working_capital_health(user_id: str = Depends(get_current_user)):
         raise HTTPException(status_code=500, detail=str(e))
 
 
-# ============================================
-# INVENTORY SUMMARY ENDPOINT
-# ============================================
+
 
 from backend.services.inventory_loan_service import get_inventory_summary, get_loan_summary
 
@@ -582,9 +569,7 @@ async def get_inventory_data(user_id: str = Depends(get_current_user)):
         raise HTTPException(status_code=500, detail=str(e))
 
 
-# ============================================
-# LOAN OBLIGATIONS ENDPOINT
-# ============================================
+
 
 class LoanSummaryResponse(BaseModel):
     total_outstanding: float

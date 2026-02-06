@@ -48,7 +48,6 @@ def generate_forecast(uploads_data: List[Dict[str, Any]], current_metrics: Dict[
     Returns:
         3-month forecast with projections
     """
-    # Aggregate monthly data from parsed transactions
     monthly_revenue = defaultdict(float)
     monthly_expenses = defaultdict(float)
     monthly_cash_in = defaultdict(float)
@@ -89,11 +88,10 @@ def generate_forecast(uploads_data: List[Dict[str, Any]], current_metrics: Dict[
                 if debit > 0:
                     monthly_cash_out[month_key] += debit
     
-    # Get last 3 months of data (sorted by date)
     all_months = set(monthly_revenue.keys()) | set(monthly_expenses.keys()) | \
                  set(monthly_cash_in.keys()) | set(monthly_cash_out.keys())
     
-    sorted_months = sorted(all_months, reverse=True)[:3]  # Last 3 months
+    sorted_months = sorted(all_months, reverse=True)[:3]
     
     if len(sorted_months) < 1:
         # Not enough data - use current metrics as fallback
@@ -110,7 +108,6 @@ def generate_forecast(uploads_data: List[Dict[str, Any]], current_metrics: Dict[
                 'summary': {}
             }
     else:
-        # Calculate averages from historical data
         n = len(sorted_months)
         avg_revenue = sum(monthly_revenue.get(m, 0) for m in sorted_months) / n
         avg_expenses = sum(monthly_expenses.get(m, 0) for m in sorted_months) / n
@@ -127,12 +124,13 @@ def generate_forecast(uploads_data: List[Dict[str, Any]], current_metrics: Dict[
     if avg_cash_out == 0 and current_metrics:
         avg_cash_out = current_metrics.get('cash_outflow', 0) / 3
     
-    # Generate projections for next 3 months
+        avg_cash_out = current_metrics.get('cash_outflow', 0) / 3
+    
     now = datetime.now()
     projections = []
     
     cumulative_cash = 0
-    for i in range(1, 4):  # Next 3 months
+    for i in range(1, 4):
         month = (now.month + i - 1) % 12 + 1
         year = now.year + ((now.month + i - 1) // 12)
         

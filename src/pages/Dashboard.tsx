@@ -5,10 +5,7 @@ import { api, MetricsData, UploadHistoryItem } from '../services/api';
 // ... (existing imports)
 
 // ... inside Dashboard component ...
-// [Removing exportDashboard function completely]
 
-// ... inside render ...
-// ... (existing imports)
 
 import MetricCard from '../components/MetricCard';
 import { FinancialBarChart } from '../components/Charts';
@@ -16,7 +13,7 @@ import GettingStarted from '../components/GettingStarted';
 import BankConnectModal from '../components/BankConnectModal';
 import ExplanationModal from '../components/ExplanationModal';
 import { useLanguage } from '../contexts/LanguageContext';
-import { getAIExplanation, ExplanationContext, ExplanationResponse } from '../services/aiExplanation';
+import { getAIExplanation, ExplanationContext } from '../services/aiExplanation';
 import { generateInvestorReport } from '../utils/pdfGenerator';
 import { DollarSign, TrendingUp, TrendingDown, Activity, Plus, RefreshCw, AlertCircle, FileText, Calendar, CheckCircle, Download, Sparkles, Shield } from 'lucide-react';
 

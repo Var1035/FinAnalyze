@@ -21,7 +21,8 @@ def classify_transaction(transaction: Dict[str, Any], upload_type: str) -> Dict[
     debit = float(transaction.get('debit', 0) or 0)
     description = str(transaction.get('description', '') or '').lower()
     
-    # Determine transaction type based on upload type and values
+    description = str(transaction.get('description', '') or '').lower()
+    
     if upload_type == 'sales':
         return {
             'category': 'Income',
@@ -31,7 +32,6 @@ def classify_transaction(transaction: Dict[str, Any], upload_type: str) -> Dict[
             'description': transaction.get('description', '')
         }
     elif upload_type == 'purchase':
-        # Categorize expenses based on description keywords
         subcategory = categorize_expense(description)
         return {
             'category': 'Expense',
@@ -41,7 +41,6 @@ def classify_transaction(transaction: Dict[str, Any], upload_type: str) -> Dict[
             'description': transaction.get('description', '')
         }
     elif upload_type == 'bank':
-        # Bank transactions can be either income or expense
         if credit > 0:
             return {
                 'category': 'Income',
@@ -77,7 +76,8 @@ def categorize_expense(description: str) -> str:
     """
     description = description.lower() if description else ''
     
-    # Category keywords mapping
+    description = description.lower() if description else ''
+    
     categories = {
         'Salary & Wages': ['salary', 'wages', 'payroll', 'employee', 'staff'],
         'Rent & Utilities': ['rent', 'lease', 'electricity', 'water', 'utility', 'power', 'gas'],
@@ -176,14 +176,14 @@ def generate_bookkeeping_summary(uploads_data: List[Dict[str, Any]]) -> Dict[str
             else:
                 non_cash_transactions += 1
     
-    # Sort expense categories by amount
+                non_cash_transactions += 1
+    
     sorted_categories = sorted(
         expense_categories.items(),
         key=lambda x: x[1],
         reverse=True
     )
     
-    # Sort monthly data
     def month_sort_key(month_str):
         try:
             return datetime.strptime(month_str, '%b %Y')
