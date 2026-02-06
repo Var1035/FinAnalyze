@@ -17,6 +17,7 @@ import { getAIExplanation, ExplanationContext } from '../services/aiExplanation'
 import { generateInvestorReport } from '../utils/pdfGenerator';
 import { DollarSign, TrendingUp, TrendingDown, Activity, Plus, RefreshCw, AlertCircle, FileText, Calendar, CheckCircle, Download, Sparkles, Shield } from 'lucide-react';
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+const API_BASE_URL = "https://finanalyze-production-cc5.up.railway.app";
 
 // GST Demo Data Type
 interface GSTData {
