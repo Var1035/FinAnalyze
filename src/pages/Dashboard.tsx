@@ -17,6 +17,8 @@ import { getAIExplanation, ExplanationContext } from '../services/aiExplanation'
 import { generateInvestorReport } from '../utils/pdfGenerator';
 import { DollarSign, TrendingUp, TrendingDown, Activity, Plus, RefreshCw, AlertCircle, FileText, Calendar, CheckCircle, Download, Sparkles, Shield } from 'lucide-react';
 const API_BASE_URL = import.meta.env.VITE_BACKEND_URL;
+
+
 // GST Demo Data Type
 interface GSTData {
   gstin: string;
@@ -223,8 +225,8 @@ const Dashboard: React.FC<DashboardProps> = ({ onUploadNew }) => {
 
       const response = await fetch('${API_BASE_URL}/api/gst/overview', {
         headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json',
+           Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json'
         }
       });
 
@@ -253,8 +255,10 @@ const Dashboard: React.FC<DashboardProps> = ({ onUploadNew }) => {
       if (!token) return;
 
       const response = await fetch('${API_BASE_URL}/api/bookkeeping/summary', {
-        headers: { 'Authorization': `Bearer ${token}`,
-                 'content-Type: 'application/json'}
+        headers: { 
+          Authorization: `Bearer ${token}`,
+          'content-Type': 'application/json'
+            }
       });
 
       if (response.ok) {
@@ -278,7 +282,8 @@ const Dashboard: React.FC<DashboardProps> = ({ onUploadNew }) => {
 
       const response = await fetch('${API_BASE_URL}/api/forecast/3month', {
         headers: { 'Authorization': `Bearer ${token}`,
-                 'content-Type: 'application/json',}
+                 'content-Type': 'application/json'
+                 }
       });
 
       if (response.ok) {
@@ -312,7 +317,7 @@ const Dashboard: React.FC<DashboardProps> = ({ onUploadNew }) => {
 
       const response = await fetch('${API_BASE_URL}/api/working-capital/health', {
         headers: { 'Authorization': `Bearer ${token}`,
-                 'content-Type: 'application/json',
+                 'content-Type': 'application/json'
                    }
       });
 
@@ -337,7 +342,7 @@ const Dashboard: React.FC<DashboardProps> = ({ onUploadNew }) => {
 
       const response = await fetch('${API_BASE_URL}/api/inventory/summary', {
         headers: { 'Authorization': `Bearer ${token}` ,
-                 'content-Type: 'application/json',
+                 'content-Type': 'application/json'
                    }
       });
 
@@ -362,7 +367,7 @@ const Dashboard: React.FC<DashboardProps> = ({ onUploadNew }) => {
 
       const response = await fetch('${API_BASE_URL}/api/loans/summary', {
         headers: { 'Authorization': `Bearer ${token}`,
-                 'content-Type: 'application/json',
+                 'content-Type': 'application/json'
                    }
       });
 
