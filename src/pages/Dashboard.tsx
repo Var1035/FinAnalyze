@@ -221,10 +221,10 @@ const Dashboard: React.FC<DashboardProps> = ({ onUploadNew }) => {
         return;
       }
 
-      const response = await fetch(`${API_BASE_URL}/api/gst/overview', {
+      const response = await fetch('${API_BASE_URL}/api/gst/overview', {
         headers: {
           'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
         }
       });
 
@@ -253,7 +253,8 @@ const Dashboard: React.FC<DashboardProps> = ({ onUploadNew }) => {
       if (!token) return;
 
       const response = await fetch('${API_BASE_URL}/api/bookkeeping/summary', {
-        headers: { 'Authorization': `Bearer ${token}` }
+        headers: { 'Authorization': `Bearer ${token}`,
+                 'content-Type: 'application/json'}
       });
 
       if (response.ok) {
@@ -276,7 +277,8 @@ const Dashboard: React.FC<DashboardProps> = ({ onUploadNew }) => {
       if (!token) return;
 
       const response = await fetch('${API_BASE_URL}/api/forecast/3month', {
-        headers: { 'Authorization': `Bearer ${token}` }
+        headers: { 'Authorization': `Bearer ${token}`,
+                 'content-Type: 'application/json',}
       });
 
       if (response.ok) {
@@ -309,7 +311,9 @@ const Dashboard: React.FC<DashboardProps> = ({ onUploadNew }) => {
       if (!token) return;
 
       const response = await fetch('${API_BASE_URL}/api/working-capital/health', {
-        headers: { 'Authorization': `Bearer ${token}` }
+        headers: { 'Authorization': `Bearer ${token}`,
+                 'content-Type: 'application/json',
+                   }
       });
 
       if (response.ok) {
@@ -332,7 +336,9 @@ const Dashboard: React.FC<DashboardProps> = ({ onUploadNew }) => {
       if (!token) return;
 
       const response = await fetch('${API_BASE_URL}/api/inventory/summary', {
-        headers: { 'Authorization': `Bearer ${token}` }
+        headers: { 'Authorization': `Bearer ${token}` ,
+                 'content-Type: 'application/json',
+                   }
       });
 
       if (response.ok) {
@@ -355,7 +361,9 @@ const Dashboard: React.FC<DashboardProps> = ({ onUploadNew }) => {
       if (!token) return;
 
       const response = await fetch('${API_BASE_URL}/api/loans/summary', {
-        headers: { 'Authorization': `Bearer ${token}` }
+        headers: { 'Authorization': `Bearer ${token}`,
+                 'content-Type: 'application/json',
+                   }
       });
 
       if (response.ok) {
