@@ -1,12 +1,5 @@
-
 import React, { useEffect, useState, useCallback } from 'react';
 import { api, MetricsData, UploadHistoryItem } from '../services/api';
-
-// ... (existing imports)
-
-// ... inside Dashboard component ...
-
-
 import MetricCard from '../components/MetricCard';
 import { FinancialBarChart } from '../components/Charts';
 import GettingStarted from '../components/GettingStarted';
@@ -16,8 +9,8 @@ import { useLanguage } from '../contexts/LanguageContext';
 import { getAIExplanation, ExplanationContext } from '../services/aiExplanation';
 import { generateInvestorReport } from '../utils/pdfGenerator';
 import { DollarSign, TrendingUp, TrendingDown, Activity, Plus, RefreshCw, AlertCircle, FileText, Calendar, CheckCircle, Download, Sparkles, Shield } from 'lucide-react';
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 // GST Demo Data Type
 interface GSTData {
@@ -212,7 +205,6 @@ const Dashboard: React.FC<DashboardProps> = ({ onUploadNew }) => {
     }
   }
 
-  // Fetch GST Demo Data from Mockoon
   const fetchGSTData = async () => {
     setGstLoading(true);
     setGstError(null);
@@ -222,166 +214,176 @@ const Dashboard: React.FC<DashboardProps> = ({ onUploadNew }) => {
         setGstError('Please login to view GST data');
         return;
       }
-      
 
-
-
-const fetchGST = async (token: string) => {
-  try {
-    const response = await fetch(
-      `${API_BASE_URL}/api/gst/overview`,
-      {
+      const gstResponse = await fetch(`${API_BASE_URL}/api/gst/overview`, {
         headers: {
           Authorization: `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        },
+          'Content-Type': 'application/json'
+        }
+      });
+
+      if (gstResponse.ok) {
+        const gstApiData = await gstResponse.json();
+        const gstPayload = gstApiData?.payload ?? gstApiData ?? {};
+        setGstData(gstPayload);
+        console.log('GST Demo data loaded:', gstPayload);
+      } else if (gstResponse.status === 503) {
+        setGstError('GST demo service unavailable. Start Mockoon on port 3001.');
+      } else {
+        setGstError('Failed to load GST demo data');
       }
-    );
+    } catch (error) {
+      console.error('GST fetch error:', error);
+      setGstError('GST demo unavailable - Mockoon not running');
+    } finally {
+      setGstLoading(false);
+    }
+  };
 
-    if (!response.ok) throw new Error('GST fetch failed');
+  const fetchBookkeeping = async () => {
+    setBookkeepingLoading(true);
+    try {
+      const token = (await (await import('../lib/supabase')).supabase.auth.getSession()).data.session?.access_token;
+      if (!token) return;
 
-    const data = await response.json();
-    setGST(data);
-  } catch (error) {
-    console.error('GST error:', error);
-  }
-};
-
-
-if (!response.ok) {
-  throw new Error('Failed to fetch GST overview');
-}
-
-const data = await response.json();
-setGstData(data);
-
-  // Fetch Bookkeeping Summary
- const fetchBookkeeping = async (token: string) => {
-  try {
-    const response = await fetch(
-      `${API_BASE_URL}/api/bookkeeping/summary`,
-      {
+      const bookkeepingResponse = await fetch(`${API_BASE_URL}/api/bookkeeping/summary`, {
         headers: {
           Authorization: `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        },
+          'Content-Type': 'application/json'
+        }
+      });
+
+      if (bookkeepingResponse.ok) {
+        const bookkeepingApiData = await bookkeepingResponse.json();
+        const bookkeepingPayload = bookkeepingApiData?.payload ?? bookkeepingApiData ?? {};
+        setBookkeepingData(bookkeepingPayload);
+        console.log('Bookkeeping data loaded:', bookkeepingPayload);
       }
-    );
+    } catch (error) {
+      console.error('Bookkeeping fetch error:', error);
+    } finally {
+      setBookkeepingLoading(false);
+    }
+  };
 
-    if (!response.ok) throw new Error('Bookkeeping fetch failed');
+  const fetchForecast = async () => {
+    setForecastLoading(true);
+    try {
+      const token = (await (await import('../lib/supabase')).supabase.auth.getSession()).data.session?.access_token;
+      if (!token) return;
 
-    const data = await response.json();
-    setBookkeeping(data);
-  } catch (error) {
-    console.error('Bookkeeping error:', error);
-  }
-};
-
-  // Fetch Forecast Data
- const fetchForecast = async (token: string) => {
-  try {
-    const response = await fetch(
-      `${API_BASE_URL}/api/forecast/3month`,
-      {
+      const forecastResponse = await fetch(`${API_BASE_URL}/api/forecast/3month`, {
         headers: {
           Authorization: `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        },
+          'Content-Type': 'application/json'
+        }
+      });
+
+      if (forecastResponse.ok) {
+        const forecastApiData = await forecastResponse.json();
+        const forecastPayload = forecastApiData?.payload ?? forecastApiData ?? {};
+        setForecastData(forecastPayload);
+        console.log('Forecast data loaded:', forecastPayload);
       }
-    );
+    } catch (error) {
+      console.error('Forecast fetch error:', error);
+    } finally {
+      setForecastLoading(false);
+    }
+  };
 
-    if (!response.ok) throw new Error('Forecast fetch failed');
+  useEffect(() => {
+    fetchMetrics();
+    fetchGSTData();
+    fetchBookkeeping();
+    fetchForecast();
+    fetchWorkingCapital();
+    fetchInventory();
+    fetchLoan();
+  }, []);
 
-    const data = await response.json();
-    setForecast(data);
-  } catch (error) {
-    console.error('Forecast error:', error);
-  }
-};
+  const fetchWorkingCapital = async () => {
+    setWorkingCapitalLoading(true);
+    try {
+      const token = (await (await import('../lib/supabase')).supabase.auth.getSession()).data.session?.access_token;
+      if (!token) return;
 
-
-useEffect(() => {
-  if (!session?.access_token) return;
-
-  const token = session.access_token;
-
-  fetchBookkeeping(token);
-  fetchGST(token);
-  fetchForecast(token);
-  fetchInventory(token);
-  fetchLoans(token);
-  fetchWorkingCapital(token);
-}, [session]);
-
-
-  // Fetch Working Capital Health
-  const fetchWorkingCapital = async (token: string) => {
-  try {
-    const response = await fetch(
-      `${API_BASE_URL}/api/working-capital/health`,
-      {
+      const workingCapitalResponse = await fetch(`${API_BASE_URL}/api/working-capital/health`, {
         headers: {
           Authorization: `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        },
+          'Content-Type': 'application/json'
+        }
+      });
+
+      if (workingCapitalResponse.ok) {
+        const workingCapitalApiData = await workingCapitalResponse.json();
+        const workingCapitalPayload = workingCapitalApiData?.payload ?? workingCapitalApiData ?? {};
+        setWorkingCapitalData(workingCapitalPayload);
+        console.log('Working capital data loaded:', workingCapitalPayload);
       }
-    );
+    } catch (error) {
+      console.error('Working capital fetch error:', error);
+    } finally {
+      setWorkingCapitalLoading(false);
+    }
+  };
 
-    if (!response.ok) throw new Error('Working capital fetch failed');
+  const fetchInventory = async () => {
+    setInventoryLoading(true);
+    try {
+      const token = (await (await import('../lib/supabase')).supabase.auth.getSession()).data.session?.access_token;
+      if (!token) return;
 
-    const data = await response.json();
-    setWorkingCapital(data);
-  } catch (error) {
-    console.error('Working capital error:', error);
-  }
-};
-
-
-  // Fetch Inventory Summary
-  const fetchInventory = async (token: string) => {
-  try {
-    const response = await fetch(
-      `${API_BASE_URL}/api/inventory/summary`,
-      {
+      const inventoryResponse = await fetch(`${API_BASE_URL}/api/inventory/summary`, {
         headers: {
           Authorization: `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        },
+          'Content-Type': 'application/json'
+        }
+      });
+
+      if (inventoryResponse.ok) {
+        const inventoryApiData = await inventoryResponse.json();
+        const inventoryPayload = inventoryApiData?.payload ?? inventoryApiData ?? {};
+        setInventoryData(inventoryPayload);
+        console.log('Inventory data loaded:', inventoryPayload);
       }
-    );
+    } catch (error) {
+      console.error('Inventory fetch error:', error);
+    } finally {
+      setInventoryLoading(false);
+    }
+  };
 
-    if (!response.ok) throw new Error('Inventory fetch failed');
+  const fetchLoan = async () => {
+    setLoanLoading(true);
+    try {
+      const token = (await (await import('../lib/supabase')).supabase.auth.getSession()).data.session?.access_token;
+      if (!token) return;
 
-    const data = await response.json();
-    setInventory(data);
-  } catch (error) {
-    console.error('Inventory error:', error);
-  }
-};
-
-
-  // Fetch Loan Summary
- const fetchLoans = async (token: string) => {
-  try {
-    const response = await fetch(
-      `${API_BASE_URL}/api/loans/summary`,
-      {
+      const loanResponse = await fetch(`${API_BASE_URL}/api/loans/summary`, {
         headers: {
           Authorization: `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        },
+          'Content-Type': 'application/json'
+        }
+      });
+
+      if (loanResponse.ok) {
+        const loanApiData = await loanResponse.json();
+        const loanPayload = loanApiData?.payload ?? loanApiData ?? {};
+        setLoanData(loanPayload);
+        console.log('Loan data loaded:', loanPayload);
       }
-    );
+    } catch (error) {
+      console.error('Loan fetch error:', error);
+    } finally {
+      setLoanLoading(false);
+    }
+  };
 
-    if (!response.ok) throw new Error('Loans fetch failed');
-
-    const data = await response.json();
-    setLoans(data);
-  } catch (error) {
-    console.error('Loans error:', error);
-  }
-};
-
+  const handleBankConnect = () => {
+    setBankConnected(true);
+    localStorage.setItem(BANK_CONN_KEY, 'true');
+  };
 
   const hasSufficientData = metrics && (
     metrics.total_revenue > 0 ||
