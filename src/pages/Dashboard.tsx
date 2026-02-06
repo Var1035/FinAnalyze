@@ -16,6 +16,7 @@ import { useLanguage } from '../contexts/LanguageContext';
 import { getAIExplanation, ExplanationContext } from '../services/aiExplanation';
 import { generateInvestorReport } from '../utils/pdfGenerator';
 import { DollarSign, TrendingUp, TrendingDown, Activity, Plus, RefreshCw, AlertCircle, FileText, Calendar, CheckCircle, Download, Sparkles, Shield } from 'lucide-react';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 // GST Demo Data Type
 interface GSTData {
@@ -221,7 +222,7 @@ const Dashboard: React.FC<DashboardProps> = ({ onUploadNew }) => {
         return;
       }
 
-      const response = await fetch('http://127.0.0.1:8000/api/gst/overview', {
+      const response = await fetch(`${API_BASE_URL}/api/gst/overview', {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
@@ -252,7 +253,7 @@ const Dashboard: React.FC<DashboardProps> = ({ onUploadNew }) => {
       const token = (await (await import('../lib/supabase')).supabase.auth.getSession()).data.session?.access_token;
       if (!token) return;
 
-      const response = await fetch('http://127.0.0.1:8000/api/bookkeeping/summary', {
+      const response = await fetch('${API_BASE_URL}/api/bookkeeping/summary', {
         headers: { 'Authorization': `Bearer ${token}` }
       });
 
@@ -275,7 +276,7 @@ const Dashboard: React.FC<DashboardProps> = ({ onUploadNew }) => {
       const token = (await (await import('../lib/supabase')).supabase.auth.getSession()).data.session?.access_token;
       if (!token) return;
 
-      const response = await fetch('http://127.0.0.1:8000/api/forecast/3month', {
+      const response = await fetch('${API_BASE_URL}/api/forecast/3month', {
         headers: { 'Authorization': `Bearer ${token}` }
       });
 
@@ -308,7 +309,7 @@ const Dashboard: React.FC<DashboardProps> = ({ onUploadNew }) => {
       const token = (await (await import('../lib/supabase')).supabase.auth.getSession()).data.session?.access_token;
       if (!token) return;
 
-      const response = await fetch('http://127.0.0.1:8000/api/working-capital/health', {
+      const response = await fetch('${API_BASE_URL}/api/working-capital/health', {
         headers: { 'Authorization': `Bearer ${token}` }
       });
 
@@ -331,7 +332,7 @@ const Dashboard: React.FC<DashboardProps> = ({ onUploadNew }) => {
       const token = (await (await import('../lib/supabase')).supabase.auth.getSession()).data.session?.access_token;
       if (!token) return;
 
-      const response = await fetch('http://127.0.0.1:8000/api/inventory/summary', {
+      const response = await fetch('${API_BASE_URL}/api/inventory/summary', {
         headers: { 'Authorization': `Bearer ${token}` }
       });
 
@@ -354,7 +355,7 @@ const Dashboard: React.FC<DashboardProps> = ({ onUploadNew }) => {
       const token = (await (await import('../lib/supabase')).supabase.auth.getSession()).data.session?.access_token;
       if (!token) return;
 
-      const response = await fetch('http://127.0.0.1:8000/api/loans/summary', {
+      const response = await fetch('${API_BASE_URL}/api/loans/summary', {
         headers: { 'Authorization': `Bearer ${token}` }
       });
 
