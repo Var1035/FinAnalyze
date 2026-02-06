@@ -226,80 +226,59 @@ const Dashboard: React.FC<DashboardProps> = ({ onUploadNew }) => {
 
 
 
-      const response = await fetch(`${API_BASE_URL}/api/gst/overview`, {
-        headers: {
-           Authorization: `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        }
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        setGstData(data);
-        console.log('GST Demo data loaded:', data);
-      } else if (response.status === 503) {
-        setGstError('GST demo service unavailable. Start Mockoon on port 3001.');
-      } else {
-        setGstError('Failed to load GST demo data');
-      }
-    } catch (err) {
-      console.warn('GST fetch error:', err);
-      setGstError('GST demo unavailable - Mockoon not running');
-    } finally {
-      setGstLoading(false);
+   const response = await fetch(
+  `${API_BASE_URL}/api/gst/overview`,
+  {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json'
     }
-  };
+  }
+);
+
+if (!response.ok) {
+  throw new Error('Failed to fetch GST overview');
+}
+
+const data = await response.json();
+setGstData(data);
 
   // Fetch Bookkeeping Summary
-  const fetchBookkeeping = async () => {
-    setBookkeepingLoading(true);
-    try {
-      const token = (await (await import('../lib/supabase')).supabase.auth.getSession()).data.session?.access_token;
-      if (!token) return;
-
-      const response = await fetch(`${API_BASE_URL}/api/bookkeeping/summary`, {
-        headers: { 
-          Authorization: `Bearer ${token}`,
-          'content-Type': 'application/json',
-            }
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        setBookkeepingData(data);
-        console.log('Bookkeeping data loaded:', data);
-      }
-    } catch (err) {
-      console.warn('Bookkeeping fetch error:', err);
-    } finally {
-      setBookkeepingLoading(false);
+ const response = await fetch(
+  `${API_BASE_URL}/api/bookkeeping/summary`,
+  {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json'
     }
-  };
+  }
+);
+
+if (!response.ok) {
+  throw new Error('Failed to fetch bookkeeping summary');
+}
+
+const data = await response.json();
+setBookkeeping(data);
 
   // Fetch Forecast Data
-  const fetchForecast = async () => {
-    setForecastLoading(true);
-    try {
-      const token = (await (await import('../lib/supabase')).supabase.auth.getSession()).data.session?.access_token;
-      if (!token) return;
-
-      const response = await fetch(`${API_BASE_URL}/api/forecast/3month`, {
-        headers: { 'Authorization': `Bearer ${token}`,
-                 'content-Type': 'application/json',
-                 }
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        setForecastData(data);
-        console.log('Forecast data loaded:', data);
-      }
-    } catch (err) {
-      console.warn('Forecast fetch error:', err);
-    } finally {
-      setForecastLoading(false);
+ const response = await fetch(
+  `${API_BASE_URL}/api/forecast/3month`,
+  {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json'
     }
-  };
+  }
+);
+
+if (!response.ok) {
+  throw new Error('Failed to fetch forecast');
+}
+
+const data = await response.json();
+setForecast(data);
+
 
   useEffect(() => {
     fetchMetrics();
@@ -337,54 +316,42 @@ const Dashboard: React.FC<DashboardProps> = ({ onUploadNew }) => {
   };
 
   // Fetch Inventory Summary
-  const fetchInventory = async () => {
-    setInventoryLoading(true);
-    try {
-      const token = (await (await import('../lib/supabase')).supabase.auth.getSession()).data.session?.access_token;
-      if (!token) return;
-
-      const response = await fetch('${API_BASE_URL}/api/inventory/summary', {
-        headers: { 'Authorization': `Bearer ${token}` ,
-                 'content-Type': 'application/json',
-                   }
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        setInventoryData(data);
-        console.log('Inventory data loaded:', data);
-      }
-    } catch (err) {
-      console.warn('Inventory fetch error:', err);
-    } finally {
-      setInventoryLoading(false);
+  const response = await fetch(
+  `${API_BASE_URL}/api/inventory/summary`,
+  {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json'
     }
-  };
+  }
+);
+
+if (!response.ok) {
+  throw new Error('Failed to fetch inventory data');
+}
+
+const data = await response.json();
+setInventory(data);
+
 
   // Fetch Loan Summary
-  const fetchLoan = async () => {
-    setLoanLoading(true);
-    try {
-      const token = (await (await import('../lib/supabase')).supabase.auth.getSession()).data.session?.access_token;
-      if (!token) return;
-
-      const response = await fetch(`${API_BASE_URL}/api/loans/summary`, {
-        headers: { 'Authorization': `Bearer ${token}`,
-                 'content-Type': 'application/json',
-                   }
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        setLoanData(data);
-        console.log('Loan data loaded:', data);
-      }
-    } catch (err) {
-      console.warn('Loan fetch error:', err);
-    } finally {
-      setLoanLoading(false);
+  const response = await fetch(
+  `${API_BASE_URL}/api/loans/summary`,
+  {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json'
     }
-  };
+  }
+);
+
+if (!response.ok) {
+  throw new Error('Failed to fetch loan summary');
+}
+
+const data = await response.json();
+setLoans(data);
+
 
   const handleBankConnect = () => {
     setBankConnected(true);
