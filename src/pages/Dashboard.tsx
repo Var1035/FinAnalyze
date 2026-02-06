@@ -226,15 +226,27 @@ const Dashboard: React.FC<DashboardProps> = ({ onUploadNew }) => {
 
 
 
-   const response = await fetch(
-  `${API_BASE_URL}/api/gst/overview`,
-  {
-    headers: {
-      Authorization: `Bearer ${token}`,
-      'Content-Type': 'application/json'
-    }
+const fetchGST = async (token: string) => {
+  try {
+    const response = await fetch(
+      `${API_BASE_URL}/api/gst/overview`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      }
+    );
+
+    if (!response.ok) throw new Error('GST fetch failed');
+
+    const data = await response.json();
+    setGST(data);
+  } catch (error) {
+    console.error('GST error:', error);
   }
-);
+};
+
 
 if (!response.ok) {
   throw new Error('Failed to fetch GST overview');
@@ -244,119 +256,132 @@ const data = await response.json();
 setGstData(data);
 
   // Fetch Bookkeeping Summary
- const response = await fetch(
-  `${API_BASE_URL}/api/bookkeeping/summary`,
-  {
-    headers: {
-      Authorization: `Bearer ${token}`,
-      'Content-Type': 'application/json'
-    }
+ const fetchBookkeeping = async (token: string) => {
+  try {
+    const response = await fetch(
+      `${API_BASE_URL}/api/bookkeeping/summary`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      }
+    );
+
+    if (!response.ok) throw new Error('Bookkeeping fetch failed');
+
+    const data = await response.json();
+    setBookkeeping(data);
+  } catch (error) {
+    console.error('Bookkeeping error:', error);
   }
-);
-
-if (!response.ok) {
-  throw new Error('Failed to fetch bookkeeping summary');
-}
-
-const data = await response.json();
-setBookkeeping(data);
+};
 
   // Fetch Forecast Data
- const response = await fetch(
-  `${API_BASE_URL}/api/forecast/3month`,
-  {
-    headers: {
-      Authorization: `Bearer ${token}`,
-      'Content-Type': 'application/json'
-    }
+ const fetchForecast = async (token: string) => {
+  try {
+    const response = await fetch(
+      `${API_BASE_URL}/api/forecast/3month`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      }
+    );
+
+    if (!response.ok) throw new Error('Forecast fetch failed');
+
+    const data = await response.json();
+    setForecast(data);
+  } catch (error) {
+    console.error('Forecast error:', error);
   }
-);
-
-if (!response.ok) {
-  throw new Error('Failed to fetch forecast');
-}
-
-const data = await response.json();
-setForecast(data);
+};
 
 
-  useEffect(() => {
-    fetchMetrics();
-    fetchGSTData();
-    fetchBookkeeping();
-    fetchForecast();
-    fetchWorkingCapital();
-    fetchInventory();
-    fetchLoan();
-  }, []);
+useEffect(() => {
+  if (!session?.access_token) return;
+
+  const token = session.access_token;
+
+  fetchBookkeeping(token);
+  fetchGST(token);
+  fetchForecast(token);
+  fetchInventory(token);
+  fetchLoans(token);
+  fetchWorkingCapital(token);
+}, [session]);
+
 
   // Fetch Working Capital Health
-  const fetchWorkingCapital = async () => {
-    setWorkingCapitalLoading(true);
-    try {
-      const token = (await (await import('../lib/supabase')).supabase.auth.getSession()).data.session?.access_token;
-      if (!token) return;
-
-      const response = await fetch(`${API_BASE_URL}/api/working-capital/health`, {
-        headers: { 'Authorization': `Bearer ${token}`,
-                 'content-Type': 'application/json',
-                   }
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        setWorkingCapitalData(data);
-        console.log('Working capital data loaded:', data);
+  const fetchWorkingCapital = async (token: string) => {
+  try {
+    const response = await fetch(
+      `${API_BASE_URL}/api/working-capital/health`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
       }
-    } catch (err) {
-      console.warn('Working capital fetch error:', err);
-    } finally {
-      setWorkingCapitalLoading(false);
-    }
-  };
+    );
+
+    if (!response.ok) throw new Error('Working capital fetch failed');
+
+    const data = await response.json();
+    setWorkingCapital(data);
+  } catch (error) {
+    console.error('Working capital error:', error);
+  }
+};
+
 
   // Fetch Inventory Summary
-  const response = await fetch(
-  `${API_BASE_URL}/api/inventory/summary`,
-  {
-    headers: {
-      Authorization: `Bearer ${token}`,
-      'Content-Type': 'application/json'
-    }
+  const fetchInventory = async (token: string) => {
+  try {
+    const response = await fetch(
+      `${API_BASE_URL}/api/inventory/summary`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      }
+    );
+
+    if (!response.ok) throw new Error('Inventory fetch failed');
+
+    const data = await response.json();
+    setInventory(data);
+  } catch (error) {
+    console.error('Inventory error:', error);
   }
-);
-
-if (!response.ok) {
-  throw new Error('Failed to fetch inventory data');
-}
-
-const data = await response.json();
-setInventory(data);
+};
 
 
   // Fetch Loan Summary
-  const response = await fetch(
-  `${API_BASE_URL}/api/loans/summary`,
-  {
-    headers: {
-      Authorization: `Bearer ${token}`,
-      'Content-Type': 'application/json'
-    }
+ const fetchLoans = async (token: string) => {
+  try {
+    const response = await fetch(
+      `${API_BASE_URL}/api/loans/summary`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      }
+    );
+
+    if (!response.ok) throw new Error('Loans fetch failed');
+
+    const data = await response.json();
+    setLoans(data);
+  } catch (error) {
+    console.error('Loans error:', error);
   }
-);
+};
 
-if (!response.ok) {
-  throw new Error('Failed to fetch loan summary');
-}
-
-const data = await response.json();
-setLoans(data);
-
-
-  const handleBankConnect = () => {
-    setBankConnected(true);
-    localStorage.setItem(BANK_CONN_KEY, 'true');
-  };
 
   const hasSufficientData = metrics && (
     metrics.total_revenue > 0 ||
