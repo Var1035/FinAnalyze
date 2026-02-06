@@ -222,11 +222,14 @@ const Dashboard: React.FC<DashboardProps> = ({ onUploadNew }) => {
         setGstError('Please login to view GST data');
         return;
       }
+      
 
-      const response = await fetch('${API_BASE_URL}/api/gst/overview', {
+
+
+      const response = await fetch(`${API_BASE_URL}/api/gst/overview`, {
         headers: {
            Authorization: `Bearer ${token}`,
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
         }
       });
 
@@ -254,10 +257,10 @@ const Dashboard: React.FC<DashboardProps> = ({ onUploadNew }) => {
       const token = (await (await import('../lib/supabase')).supabase.auth.getSession()).data.session?.access_token;
       if (!token) return;
 
-      const response = await fetch('${API_BASE_URL}/api/bookkeeping/summary', {
+      const response = await fetch(`${API_BASE_URL}/api/bookkeeping/summary`, {
         headers: { 
           Authorization: `Bearer ${token}`,
-          'content-Type': 'application/json'
+          'content-Type': 'application/json',
             }
       });
 
@@ -280,9 +283,9 @@ const Dashboard: React.FC<DashboardProps> = ({ onUploadNew }) => {
       const token = (await (await import('../lib/supabase')).supabase.auth.getSession()).data.session?.access_token;
       if (!token) return;
 
-      const response = await fetch('${API_BASE_URL}/api/forecast/3month', {
+      const response = await fetch(`${API_BASE_URL}/api/forecast/3month`, {
         headers: { 'Authorization': `Bearer ${token}`,
-                 'content-Type': 'application/json'
+                 'content-Type': 'application/json',
                  }
       });
 
@@ -315,9 +318,9 @@ const Dashboard: React.FC<DashboardProps> = ({ onUploadNew }) => {
       const token = (await (await import('../lib/supabase')).supabase.auth.getSession()).data.session?.access_token;
       if (!token) return;
 
-      const response = await fetch('${API_BASE_URL}/api/working-capital/health', {
+      const response = await fetch(`${API_BASE_URL}/api/working-capital/health`, {
         headers: { 'Authorization': `Bearer ${token}`,
-                 'content-Type': 'application/json'
+                 'content-Type': 'application/json',
                    }
       });
 
@@ -342,7 +345,7 @@ const Dashboard: React.FC<DashboardProps> = ({ onUploadNew }) => {
 
       const response = await fetch('${API_BASE_URL}/api/inventory/summary', {
         headers: { 'Authorization': `Bearer ${token}` ,
-                 'content-Type': 'application/json'
+                 'content-Type': 'application/json',
                    }
       });
 
@@ -365,9 +368,9 @@ const Dashboard: React.FC<DashboardProps> = ({ onUploadNew }) => {
       const token = (await (await import('../lib/supabase')).supabase.auth.getSession()).data.session?.access_token;
       if (!token) return;
 
-      const response = await fetch('${API_BASE_URL}/api/loans/summary', {
+      const response = await fetch(`${API_BASE_URL}/api/loans/summary`, {
         headers: { 'Authorization': `Bearer ${token}`,
-                 'content-Type': 'application/json'
+                 'content-Type': 'application/json',
                    }
       });
 
