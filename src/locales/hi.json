@@ -1,0 +1,82 @@
+{
+    "dashboard": {
+        "title": "वित्तीय अवलोकन",
+        "subtitle": "आपके व्यापार की स्थिति का वास्तविक समय मूल्यांकन",
+        "refresh": "डेटा रिफ्रेश करें",
+        "uploadNew": "नई फ़ाइल अपलोड करें",
+        "downloadSummary": "सारांश डाउनलोड करें"
+    },
+    "metrics": {
+        "totalRevenue": "कुल राजस्व",
+        "totalExpenses": "कुल खर्च",
+        "netProfit": "शुद्ध लाभ",
+        "profitMargin": "लाभ मार्जिन",
+        "cashInflow": "नकद आवक",
+        "cashOutflow": "नकद जावक",
+        "totalReceivables": "कुल प्राप्य",
+        "totalPayables": "कुल देय"
+    },
+    "cards": {
+        "financialHealth": "वित्तीय स्वास्थ्य",
+        "creditReadiness": "क्रेडिट तैयारी",
+        "costOptimization": "लागत अनुकूलन",
+        "aiInsights": "AI अंतर्दृष्टि",
+        "uploadHistory": "अपलोड इतिहास"
+    },
+    "creditReadiness": {
+        "eligibility": "पात्रता",
+        "preliminary": "प्रारंभिक",
+        "potential": "संभावना",
+        "workingCapitalLoan": "कार्यशील पूंजी ऋण",
+        "uploadToUnlock": "पात्रता जांच अनलॉक करने के लिए डेटा अपलोड करें",
+        "dataRequired": "जांच के लिए डेटा आवश्यक"
+    },
+    "status": {
+        "goodStanding": "अच्छी स्थिति",
+        "needsAttention": "ध्यान आवश्यक",
+        "neutral": "तटस्थ",
+        "inactive": "स्थिति: निष्क्रिय",
+        "uploadToActivate": "मूल्यांकन सक्रिय करने के लिए डेटा अपलोड करें"
+    },
+    "insights": {
+        "title": "AI अंतर्दृष्टि",
+        "uploadForInsights": "अंतर्दृष्टि उत्पन्न करने के लिए वित्तीय डेटा अपलोड करें।",
+        "noInsights": "विशिष्ट अंतर्दृष्टि के लिए अधिक डेटा अपलोड करें।"
+    },
+    "upload": {
+        "title": "वित्तीय स्वास्थ्य मूल्यांकन",
+        "subtitle": "अपने व्यापार स्वास्थ्य का तत्काल AI-संचालित विश्लेषण प्राप्त करने के लिए अपने वित्तीय दस्तावेज़ अपलोड करें।",
+        "selectType": "1. दस्तावेज़ प्रकार चुनें",
+        "uploadFile": "2. फ़ाइल अपलोड करें",
+        "bank": "बैंक",
+        "sales": "बिक्री",
+        "purchase": "खरीद",
+        "analyze": "वित्तीय विश्लेषण करें",
+        "processing": "प्रोसेसिंग...",
+        "continueToBoard": "डैशबोर्ड पर जारी रखें",
+        "supportedFormats": "समर्थित प्रारूप: .CSV, .XLSX (अधिकतम 10MB)",
+        "secureProcessing": "सुरक्षित रूप से प्रोसेस किया गया। डेटा तीसरे पक्षों के साथ साझा नहीं किया जाता।"
+    },
+    "history": {
+        "fileName": "फ़ाइल नाम",
+        "type": "प्रकार",
+        "uploadDate": "अपलोड तिथि",
+        "status": "स्थिति",
+        "completed": "पूर्ण"
+    },
+    "dataWindow": {
+        "analysisBasedOn": "अपलोड किए गए डेटा पर आधारित विश्लेषण",
+        "filesProcessed": "फ़ाइल(ें) प्रोसेस की गईं",
+        "latest": "नवीनतम"
+    },
+    "common": {
+        "loading": "डैशबोर्ड लोड हो रहा है...",
+        "error": "डैशबोर्ड लोड करने में त्रुटि",
+        "retry": "पुनः प्रयास करें"
+    },
+    "gettingStarted": {
+        "title": "शुरू करें",
+        "uploadData": "वित्तीय डेटा अपलोड करें",
+        "connectBank": "बैंक खाता कनेक्ट करें"
+    }
+}

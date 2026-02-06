@@ -1,0 +1,149 @@
+{
+    "uuid": "gst-demo-env",
+    "lastMigration": 28,
+    "name": "FinAnalyze GST Demo",
+    "endpointPrefix": "",
+    "latency": 100,
+    "port": 3001,
+    "hostname": "localhost",
+    "routes": [
+        {
+            "uuid": "gst-summary",
+            "documentation": "GST Summary - Returns GSTIN, taxable value, collected/paid GST, liability",
+            "method": "get",
+            "endpoint": "gst/summary",
+            "responses": [
+                {
+                    "uuid": "gst-summary-response",
+                    "body": "{\n  \"gstin\": \"29ABCDE1234F1Z5\",\n  \"period\": \"Jan–Mar 2026\",\n  \"total_taxable_value\": 1250000,\n  \"gst_collected\": 225000,\n  \"gst_paid\": 210000,\n  \"pending_liability\": 15000,\n  \"compliance_status\": \"At Risk\"\n}",
+                    "latency": 0,
+                    "statusCode": 200,
+                    "label": "Success",
+                    "headers": [
+                        {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                        },
+                        {
+                            "key": "Access-Control-Allow-Origin",
+                            "value": "*"
+                        }
+                    ],
+                    "bodyType": "INLINE",
+                    "filePath": "",
+                    "databucketID": "",
+                    "sendFileAsBody": false,
+                    "rules": [],
+                    "rulesOperator": "OR",
+                    "disableTemplating": false,
+                    "fallbackTo404": false,
+                    "default": true
+                }
+            ],
+            "enabled": true,
+            "responseMode": null
+        },
+        {
+            "uuid": "gst-returns",
+            "documentation": "GST Returns - Filing status for GSTR-1 and GSTR-3B",
+            "method": "get",
+            "endpoint": "gst/returns",
+            "responses": [
+                {
+                    "uuid": "gst-returns-response",
+                    "body": "{\n  \"gstr_1\": \"Filed\",\n  \"gstr_3b\": \"Filed\",\n  \"last_filed_date\": \"2026-01-20\",\n  \"delay_days\": 5\n}",
+                    "latency": 0,
+                    "statusCode": 200,
+                    "label": "Success",
+                    "headers": [
+                        {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                        },
+                        {
+                            "key": "Access-Control-Allow-Origin",
+                            "value": "*"
+                        }
+                    ],
+                    "bodyType": "INLINE",
+                    "filePath": "",
+                    "databucketID": "",
+                    "sendFileAsBody": false,
+                    "rules": [],
+                    "rulesOperator": "OR",
+                    "disableTemplating": false,
+                    "fallbackTo404": false,
+                    "default": true
+                }
+            ],
+            "enabled": true,
+            "responseMode": null
+        },
+        {
+            "uuid": "gst-compliance",
+            "documentation": "GST Compliance Status - Overall status and reason",
+            "method": "get",
+            "endpoint": "gst/compliance-status",
+            "responses": [
+                {
+                    "uuid": "gst-compliance-response",
+                    "body": "{\n  \"status\": \"At Risk\",\n  \"reason\": \"Pending GST liability and delayed filing\"\n}",
+                    "latency": 0,
+                    "statusCode": 200,
+                    "label": "Success",
+                    "headers": [
+                        {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                        },
+                        {
+                            "key": "Access-Control-Allow-Origin",
+                            "value": "*"
+                        }
+                    ],
+                    "bodyType": "INLINE",
+                    "filePath": "",
+                    "databucketID": "",
+                    "sendFileAsBody": false,
+                    "rules": [],
+                    "rulesOperator": "OR",
+                    "disableTemplating": false,
+                    "fallbackTo404": false,
+                    "default": true
+                }
+            ],
+            "enabled": true,
+            "responseMode": null
+        }
+    ],
+    "proxyMode": false,
+    "proxyHost": "",
+    "proxyRemovePrefix": false,
+    "tlsOptions": {
+        "enabled": false,
+        "type": "CERT",
+        "pfxPath": "",
+        "certPath": "",
+        "keyPath": "",
+        "caPath": "",
+        "passphrase": ""
+    },
+    "cors": true,
+    "headers": [
+        {
+            "key": "Access-Control-Allow-Origin",
+            "value": "*"
+        },
+        {
+            "key": "Access-Control-Allow-Methods",
+            "value": "GET, POST, PUT, DELETE, OPTIONS"
+        },
+        {
+            "key": "Access-Control-Allow-Headers",
+            "value": "Content-Type, Authorization"
+        }
+    ],
+    "proxyReqHeaders": [],
+    "proxyResHeaders": [],
+    "data": []
+}

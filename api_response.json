@@ -1,0 +1,3 @@
+{
+  "detail": "{'message': \"Could not find the 'processing_error' column of 'financial_uploads' in the schema cache\", 'code': 'PGRST204', 'hint': None, 'details': None}"
+}

@@ -1,0 +1,82 @@
+{
+    "dashboard": {
+        "title": "Financial Overview",
+        "subtitle": "Real-time assessment of your business health",
+        "refresh": "Refresh Data",
+        "uploadNew": "Upload New File",
+        "downloadSummary": "Download Summary"
+    },
+    "metrics": {
+        "totalRevenue": "Total Revenue",
+        "totalExpenses": "Total Expenses",
+        "netProfit": "Net Profit",
+        "profitMargin": "Profit Margin",
+        "cashInflow": "Cash Inflow",
+        "cashOutflow": "Cash Outflow",
+        "totalReceivables": "Total Receivables",
+        "totalPayables": "Total Payables"
+    },
+    "cards": {
+        "financialHealth": "Financial Health",
+        "creditReadiness": "Credit Readiness",
+        "costOptimization": "Cost Optimization",
+        "aiInsights": "AI Insights",
+        "uploadHistory": "Upload History"
+    },
+    "creditReadiness": {
+        "eligibility": "Eligibility",
+        "preliminary": "Preliminary",
+        "potential": "Potential",
+        "workingCapitalLoan": "Working Capital Loan",
+        "uploadToUnlock": "Upload data to unlock eligibility check",
+        "dataRequired": "Data Required to Check"
+    },
+    "status": {
+        "goodStanding": "Good Standing",
+        "needsAttention": "Needs Attention",
+        "neutral": "Neutral",
+        "inactive": "Status: Inactive",
+        "uploadToActivate": "Upload data to activate assessment"
+    },
+    "insights": {
+        "title": "AI Insights",
+        "uploadForInsights": "Upload financial data to generate insights.",
+        "noInsights": "Upload more data to generate specific insights."
+    },
+    "upload": {
+        "title": "Financial Health Assessment",
+        "subtitle": "Upload your financial documents to get an instant AI-powered analysis of your business health.",
+        "selectType": "1. Select Document Type",
+        "uploadFile": "2. Upload File",
+        "bank": "Bank",
+        "sales": "Sales",
+        "purchase": "Purchase",
+        "analyze": "Analyze Financials",
+        "processing": "Processing...",
+        "continueToBoard": "Continue to Dashboard",
+        "supportedFormats": "Supported formats: .CSV, .XLSX (Max 10MB)",
+        "secureProcessing": "Securely processed. No data is shared with third parties."
+    },
+    "history": {
+        "fileName": "File Name",
+        "type": "Type",
+        "uploadDate": "Upload Date",
+        "status": "Status",
+        "completed": "Completed"
+    },
+    "dataWindow": {
+        "analysisBasedOn": "Analysis based on uploaded data",
+        "filesProcessed": "file(s) processed",
+        "latest": "Latest"
+    },
+    "common": {
+        "loading": "Loading Dashboard...",
+        "error": "Error Loading Dashboard",
+        "retry": "Retry"
+    },
+    "gettingStarted": {
+        "title": "Get Started",
+        "uploadData": "Upload Financial Data",
+        "connectBank": "Connect Bank Account"
+    }
+}
