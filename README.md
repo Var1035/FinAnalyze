@@ -55,7 +55,7 @@ FinAnalyze is a **financial data analytics** platform designed to transform raw 
 ---
 
 ## Project Structure
-
+```
 FinAnalyze/
 ├─ .bolt/                 # Automation and configuration assets[1]
 ├─ backend/               # Python backend logic and processing scripts[1]
