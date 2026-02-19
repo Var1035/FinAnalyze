@@ -1,95 +1,87 @@
-# FinAnalyze  
-**A Financial Data Analysis & Insight Platform**
+# FinAnalyze – Financial Health Assessment Platform
+
+FinAnalyze is a **financial data analytics** platform designed to transform raw banking statements into structured, insightful, and action‑oriented views of an individual's financial health.[page:1] The system focuses on scalable ingestion, robust data validation, and clear visualization of income, expenses, and savings trends over time.[page:1]
 
 ---
 
-## Overview
+## Key Features
 
-**FinAnalyze** is a structured financial data analysis platform designed to process, validate, and analyze banking transaction data. The system converts raw CSV-based financial records into organized, queryable, and analyzable datasets, enabling downstream insights, reporting, and visualization.
-
-The project follows a **modular architecture**, separating frontend presentation, backend processing, and database management to ensure scalability, maintainability, and clarity.
-
----
-
-## Objectives
-
-- Standardize and validate raw bank transaction data  
-- Enable structured storage and retrieval of financial records  
-- Support API-based data processing and testing  
-- Provide a modern frontend foundation for analytics dashboards  
+- Secure ingestion of bank transaction data from CSV files with validation of schema and format.[page:1]  
+- Automated cleaning, normalization, and categorization of financial transactions.[page:1]  
+- Rule‑driven and programmatic logic for matching and classifying transaction types.[page:1]  
+- Dashboard experience for exploring spending patterns, income flows, and savings behavior.[page:1]  
+- Supabase‑backed data storage for persistent and queryable financial records.[page:1]  
+- Comprehensive test utilities for API endpoints, database operations, and parsing logic.[page:1]  
 
 ---
 
-## Key Capabilities
+## Tech Stack
 
-- CSV-based bank transaction ingestion  
-- Backend validation and transformation of financial data  
-- API-driven data flow and testing support  
-- Database schema management using Supabase  
-- Frontend-ready architecture for analytics visualization  
+**Frontend**  
+- TypeScript with a modern React + Vite setup for building the user interface (`src`, `vite.config.ts`).[page:1]  
+- Tailwind CSS for utility‑first styling and consistent design (`tailwind.config.js`, `postcss.config.js`).[page:1]  
+
+**Backend**  
+- Python for data processing, validation, and API integrations (`backend`, multiple `test_*.py` utilities).[page:1]  
+
+**Data & Infrastructure**  
+- Supabase as the primary database and platform for persistence and schema management (`supabase` directory).[page:1]  
+- Mockoon configuration for mocking APIs during local development and testing (`mockoon`).[page:1]  
+
+**Tooling & Quality**  
+- ESLint and TypeScript configuration for code quality and type safety (`eslint.config.js`, `tsconfig*.json`).[page:1]  
+- Vite for fast local development and optimized production builds.[page:1]  
 
 ---
 
-## Technology Stack
+## High‑Level Workflow
 
-### Frontend
-- **React** with **TypeScript** – Component-based UI development  
-- **Vite** – Fast build and development tooling  
-- **Tailwind CSS** – Utility-first styling framework  
-- **ESLint** – Code quality and linting  
+1. **Data Ingestion**  
+   - Users upload CSV files containing bank transactions (e.g., `test_bank.csv`, `test_upload.csv`).[page:1]  
+   - Columns and formats are validated using dedicated test scripts (`test_columns.py`, `test_parsing.py`).[page:1]  
 
-### Backend
-- **Python** – Data parsing, validation, and API logic  
-- **Automated Test Scripts** – API and database verification  
+2. **Processing & Classification**  
+   - Python utilities clean and normalize raw records, then categorize transactions (e.g., income, expense types) using matching logic (`test_match.py`, `inspect_*.py`).[page:1]  
 
-### Database & Tooling
-- **Supabase** – Database, authentication, and schema management  
-- **Mockoon** – API mocking and testing  
-- **Bolt** – Automation and configuration support  
+3. **Storage & Access**  
+   - Processed records are stored in Supabase, with migrations and insert operations orchestrated via scripts such as `run_migration.py`, `test_db*.py`.[page:1]  
+
+4. **API & Debugging**  
+   - API endpoints are exercised and validated with scripts like `test_api.py`, `test_api_upload.py`, and `test_api_debug.py`, supported by example artifacts such as `api_response.json` and `error.txt`.[page:1]  
+
+5. **Visualization**  
+   - The frontend dashboard (e.g., `Dashboard.tsx`) consumes processed data and presents intuitive summaries and visual insights for end users.[page:1]  
 
 ---
 
 ## Project Structure
 
-
 FinAnalyze/
-│
-├── backend/ # Python backend logic and API handling
-├── src/ # Frontend source code (React + TypeScript)
-├── supabase/ # Supabase configuration and migrations
-├── mockoon/ # API mock definitions
-├── .bolt/ # Automation and tooling configs
-│
-├── test_api.py # API test cases
-├── test_db.py # Database test cases
-├── test_bank.csv # Sample bank transaction data
-├── test_upload.csv # Sample upload dataset
-├── api_response.json # Sample API response output
-│
-├── index.html # Frontend entry point
-├── package.json # Frontend dependencies
-├── vite.config.ts # Vite configuration
-├── tailwind.config.js # Tailwind CSS configuration
-├── tsconfig.json # TypeScript configuration
-└── README.md # Project documentation
-
-
----
-
-## System Workflow
-
-1. User uploads a CSV file containing bank transactions  
-2. Backend services validate and normalize transaction data  
-3. Cleaned data is stored in Supabase  
-4. APIs expose structured financial records  
-5. Frontend consumes APIs for analytics and visualization  
-
----
-
-## Setup Instructions
-
-### Clone the Repository
-
-git clone https://github.com/Var1035/FinAnalyze.git
-cd FinAnalyze
-
+├─ .bolt/                 # Automation and configuration assets[1]
+├─ backend/               # Python backend logic and processing scripts[1]
+├─ mockoon/               # Mockoon API configuration for local testing[1]
+├─ src/                   # Frontend (TypeScript/React components, views, dashboard)[1]
+├─ supabase/              # Supabase configuration, migrations, and schema files[1]
+├─ api_response.json      # Example API response payload for debugging[1]
+├─ error.txt              # Captured error output for troubleshooting[1]
+├─ index.html             # Frontend entry HTML file[1]
+├─ package.json           # Frontend dependencies and npm scripts[1]
+├─ postcss.config.js      # PostCSS configuration for Tailwind/CSS pipeline[1]
+├─ tailwind.config.js     # Tailwind CSS configuration[1]
+├─ test_api.py            # API endpoint test script[1]
+├─ test_api_debug.py      # API debugging and logging helper[1]
+├─ test_api_upload.py     # API upload flow test script[1]
+├─ test_bank.csv          # Sample bank CSV for ingestion tests[1]
+├─ test_columns.py        # CSV column validation script[1]
+├─ test_db.py             # Database connectivity and basic operations test[1]
+├─ test_db_insert.py      # Database insert operation validation[1]
+├─ test_db_insert2.py     # Additional insert and edge‑case tests[1]
+├─ test_db_user_id.py     # User ID and mapping‑related tests[1]
+├─ test_match.py          # Transaction matching and classification tests[1]
+├─ test_parsing.py        # CSV parsing and normalization tests[1]
+├─ test_upload.csv        # Sample upload file for API tests[1]
+├─ tsconfig.app.json      # TypeScript configuration for application code[1]
+├─ tsconfig.json          # Root TypeScript configuration[1]
+├─ tsconfig.node.json     # TypeScript configuration for Node‑related tooling[1]
+├─ vite.config.ts         # Vite configuration for build and dev server[1]
+└─ eslint.config.js       # ESLint configuration for linting rules[1]
