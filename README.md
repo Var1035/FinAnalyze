@@ -57,7 +57,6 @@ FinAnalyze is a **financial data analytics** platform designed to transform raw 
 ## Project Structure
 ```
 FinAnalyze/
-├─ .bolt/                 # Automation and configuration assets[1]
 ├─ backend/               # Python backend logic and processing scripts[1]
 ├─ mockoon/               # Mockoon API configuration for local testing[1]
 ├─ src/                   # Frontend (TypeScript/React components, views, dashboard)[1]
@@ -85,3 +84,38 @@ FinAnalyze/
 ├─ tsconfig.node.json     # TypeScript configuration for Node‑related tooling[1]
 ├─ vite.config.ts         # Vite configuration for build and dev server[1]
 └─ eslint.config.js       # ESLint configuration for linting rules[1]
+```
+## Setup Instructions
+
+### Clone the Repository
+```bash
+git clone https://github.com/Var1035/FinAnalyze.git
+cd FinAnalyze
+```
+### Frontend Setup
+```
+npm install
+npm run dev
+```
+### Backend Setup
+
+```
+python -m venv .venv
+source .venv/bin/activate    # Linux / macOS
+.venv\Scripts\activate       # Windows
+
+pip install -r backend/requirements.txt
+```
+### Run Tests
+
+```
+python test_api.py
+python test_db.py
+```
+### Future Enhancements
+
+- Intelligent transaction categorization using Machine Learning
+- Financial trend analysis and forecasting
+- Exportable reports (PDF / Excel)
+- User-level dashboards and budgeting insights
+
