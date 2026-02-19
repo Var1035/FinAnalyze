@@ -89,37 +89,7 @@ FinAnalyze/
 ## Setup Instructions
 
 ### Clone the Repository
-```bash
+
 git clone https://github.com/Var1035/FinAnalyze.git
 cd FinAnalyze
-Frontend Setup
-npm install
-npm run dev
-Backend Setup
-python -m venv .venv
-source .venv/bin/activate   # Linux / macOS
-.venv\Scripts\activate      # Windows
 
-pip install -r backend/requirements.txt
-Database Migration
-python run_migration.py
-Run Tests
-python test_api.py
-python test_db.py
-Future Enhancements
-
-Intelligent transaction categorization using Machine Learning
-
-Financial trend analysis and forecasting
-
-Exportable reports (PDF / Excel)
-
-User-level dashboards and budgeting insights
-
-Contribution Guidelines
-
-Contributions are welcome. Please ensure all changes follow the existing code structure and include appropriate test coverage.
-
-License
-
-License information has not been defined yet. Consider adding a license file to clarify usage and distribution terms.
